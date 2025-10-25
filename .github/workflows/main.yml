@@ -2,8 +2,8 @@ name: Daily Notebook Run
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # runs every day at 6:00 AM UTC
-  workflow_dispatch:     # allows manual trigger too
+    - cron: '30 10 * * *'  # runs every day at 4:00 PM IST
+  workflow_dispatch:       # allows manual trigger too
 
 jobs:
   run-notebook:
