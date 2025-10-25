@@ -1,0 +1,30 @@
+name: Daily Notebook Run
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # runs every day at 6:00 AM UTC
+  workflow_dispatch:     # allows manual trigger too
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: |
+          pip install nbconvert
+          pip install notebook
+      - name: Execute notebook
+        run: |
+          jupyter nbconvert --to notebook --execute instvidgenrator.ipynb --output executed.ipynb
+      - name: Commit & Push executed notebook
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add executed.ipynb
+          git commit -m "Auto-run notebook"
+          git push
